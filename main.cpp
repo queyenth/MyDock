@@ -23,18 +23,15 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
       PostQuitMessage(0);
       break;
     case WM_LBUTTONDOWN:
-    case WM_RBUTTONDOWN:
       dock->OnClick(GET_X_LPARAM(lParam), uMsg);
       break;
-    case WM_MOUSEMOVE:
-        dock->OnMove(GET_X_LPARAM(lParam));
     default:
       return DefWindowProc(hwnd, uMsg, wParam, lParam);
   }
   return 0;
 }
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow) {
   WNDCLASS wc;
   wc.style = CS_HREDRAW | CS_VREDRAW;
   wc.lpfnWndProc = (WNDPROC)WndProc;
@@ -42,7 +39,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
   wc.cbWndExtra = 0;
   wc.hInstance = hInstance;
   wc.hIcon = (HICON)LoadImage(hInstance,
-    "C:\\Users\\oveRan\\Desktop\\dev\\MyDock\\mydock.ico", IMAGE_ICON, LR_DEFAULTSIZE, LR_DEFAULTSIZE, LR_LOADFROMFILE);
+    ".\\mydock.ico", IMAGE_ICON, LR_DEFAULTSIZE, LR_DEFAULTSIZE, LR_LOADFROMFILE);
   wc.hCursor = LoadCursor(NULL, IDC_ARROW);
   wc.hbrBackground = NULL;
   wc.lpszMenuName = NULL;
@@ -52,7 +49,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     return 1;
   HWND hWnd;
   hWnd = CreateWindowEx(WS_EX_APPWINDOW, (char *)"MyDock",
-    (char *)"MyDock", WS_POPUP, MyDock::x, MyDock::y,
+    NULL, WS_POPUP, MyDock::x, MyDock::y,
     MyDock::width, MyDock::height, NULL, NULL, hInstance, NULL);
   if (!hWnd)
     return 1;
@@ -69,7 +66,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
       TranslateMessage(&msg);
       DispatchMessage(&msg);
     }
-    else if ((mousePoint.x > MyDock::x && mousePoint.x < MyDock::x+MyDock::width) &&
+
+    if ((mousePoint.x > MyDock::x && mousePoint.x < MyDock::x+MyDock::width) &&
         (mousePoint.y > MyDock::y && mousePoint.y < MyDock::y+MyDock::height)) {
       SetWindowPos(hWnd, HWND_TOPMOST,
         MyDock::x, MyDock::y, MyDock::width, MyDock::height, SWP_SHOWWINDOW);

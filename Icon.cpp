@@ -2,7 +2,7 @@
 
 #include <cstdlib>
 
-Icon::Icon(std::string pathToFile) : pathToFile(pathToFile), isOnMove(false) {
+Icon::Icon(std::string pathToFile) : pathToFile(pathToFile) {
   WORD pWord;
   ICONINFO iconinfo;
   HICON hIcon = ExtractAssociatedIcon(GetModuleHandle(NULL), pathToFile.c_str(), &pWord);
@@ -29,21 +29,6 @@ int Icon::GetHeight() const {
 
 int Icon::GetWidth() const {
   return width;
-}
-
-void Icon::OnMove(bool isOnMoved) {
-  this->isOnMove = isOnMoved;
-  int newSize;
-  if (isOnMoved)
-    newSize = 48;
-  else
-    newSize = 32;
-  SetHeight(newSize);
-  SetWidth(newSize);
-}
-
-bool Icon::IsOnMove() const {
-  return isOnMove;
 }
 
 void Icon::SetHeight(int newHeight) {

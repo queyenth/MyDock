@@ -112,13 +112,3 @@ void MyDock::OnClick(int x, UINT uMsg) {
     ShellExecute(NULL, "open", icons[x].GetPathToFile().c_str(),
       NULL, NULL, SW_SHOWNORMAL);
 }
-
-void MyDock::OnMove(int x) {
-  x /= icon_size;
-  /*for (int i = 0; i < icons.size(); i++)
-    icons[i].OnMove(false);*/
-  if (x < icons.size()) {
-    icons[x].OnMove(true);
-    SetCursor(LoadCursor(NULL, IDC_HAND));
-  }
-}
